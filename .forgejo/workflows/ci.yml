@@ -141,13 +141,8 @@ jobs:
 
       - name: Install Docker
         run: |
-          apt install docker.io docker-compose-v2 -yqq
+          curl -fsSL https://get.docker.com | sh
           docker --version
-
-      - name: Add user to docker group
-        run: |
-          groupadd -f docker
-          usermod -aG docker $(whoami)
 
       - name: Install latest version of ncc
         run: |
