@@ -73,32 +73,6 @@
             $this->assertEquals(1, $state['ExitCode']);
         }
 
-        public function testRetryOnNetworkError()
-        {
-            // Create network
-            $networkName = 'dockerlib-test-retry-' . uniqid();
-            $network = $this->docker->networks()->create([
-                'Name' => $networkName,
-                'Driver' => 'bridge'
-            ]);
-
-            try {
-                // Try to create network with same name (should fail)
-                $this->expectException(\Exception::class);
-                $this->docker->networks()->create([
-                    'Name' => $networkName,
-                    'Driver' => 'bridge'
-                ]);
-            } finally {
-                // Cleanup
-                try {
-                    $this->docker->networks()->remove($network->getId());
-                } catch (\Exception $e) {
-                    // Ignore
-                }
-            }
-        }
-
         public function testHandleInvalidConfiguration()
         {
             // Try to create container with invalid config

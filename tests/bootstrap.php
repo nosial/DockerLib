@@ -15,4 +15,4 @@
         import($buildOutputPath);
 
         // Load test base class
-        require_once __DIR__ . '/DockerLib/BaseDockerTest.php';
+        require_once __DIR__ . '/DockerLib/BaseDockerTestCase.php';

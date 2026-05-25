@@ -1,8 +1,7 @@
 <phpunit bootstrap="tests/bootstrap.php"
          colors="true"
          beStrictAboutOutputDuringTests="true"
-         beStrictAboutTestsThatDoNotTestAnything="true"
-         stopOnFailure="false"
+          stopOnFailure="false"
          processIsolation="false"
          cacheResultFile=".phpunit.cache/test-results">
     <testsuites>

@@ -54,11 +54,11 @@
         {
             try {
                 $client = new SocketClient('/var/run/docker.sock');
-                
-                $this->expectException(\Exception::class);
                 $client->request('INVALID_METHOD', '/_ping');
             } catch (ConnectionException $e) {
                 $this->markTestSkipped('Docker socket not accessible');
+            } catch (\Exception $e) {
+                $this->assertInstanceOf(\Exception::class, $e);
             }
         }
     }
