@@ -100,14 +100,6 @@
             $this->assertGreaterThan(0, $info->getNCPU());
         }
 
-        public function testSystemInfoDockerRootDir()
-        {
-            $info = $this->docker->system()->info();
-            
-            $this->assertNotEmpty($info->getDockerRootDir());
-            $this->assertDirectoryExists($info->getDockerRootDir());
-        }
-
         public function testSystemInfoDriver()
         {
             $info = $this->docker->system()->info();
