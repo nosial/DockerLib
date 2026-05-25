@@ -1,0 +1,37 @@
+<phpunit bootstrap="tests/bootstrap.php"
+         colors="true"
+         beStrictAboutOutputDuringTests="true"
+         beStrictAboutTestsThatDoNotTestAnything="true"
+         stopOnFailure="false"
+         processIsolation="false"
+         cacheResultFile=".phpunit.cache/test-results">
+    <testsuites>
+        <testsuite name="Unit Tests">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <ini name="error_reporting" value="-1"/>
+        <ini name="display_errors" value="1"/>
+        <ini name="memory_limit" value="512M"/>
+        <env name="LOG_LEVEL" value="debug"/>
+        <env name="LOGLIB_UDP_ENABLED" value="true"/>
+        <env name="LOGLIB_UDP_HOST" value="127.0.0.1"/>
+        <env name="LOGLIB_UDP_PORT" value="5000"/>
+        <env name="LOGLIB_UDP_TRACE_FORMAT" value="full"/>
+        <!-- CI detection -->
+        <env name="CI" value="false" force="false"/>
+        <!-- Test timeouts -->
+        <env name="TEST_TIMEOUT" value="30"/>
+        <env name="TEST_LONG_TIMEOUT" value="60"/>
+    </php>
+    <groups>
+        <include>
+            <group>default</group>
+        </include>
+        <exclude>
+            <group>slow</group>
+            <group>swarm</group>
+        </exclude>
+    </groups>
+</phpunit>
