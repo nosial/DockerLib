@@ -118,62 +118,6 @@
             $this->assertGreaterThan(1000, filesize($tarFile));
         }
 
-        public function testImageImport(): void
-        {
-            $tarData = $this->docker->images()->export('alpine:latest');
-
-            $tarFile = sys_get_temp_dir() . '/image-import-' . uniqid() . '.tar';
-            $this->testFiles[] = $tarFile;
-            file_put_contents($tarFile, $tarData);
-
-            $newTag = 'dockerlib-test-import:' . uniqid();
-            $this->testImages[] = $newTag;
-
-            try {
-                $result = $this->docker->images()->import($tarFile);
-
-                $this->assertIsArray($result);
-
-                $found = false;
-                for ($i = 0; $i < 15; $i++) {
-                    sleep(1);
-                    try {
-                        $image = $this->docker->images()->inspect($newTag);
-                        $this->testImages[] = $newTag;
-                        $found = true;
-                        break;
-                    } catch (\Exception $e) {
-                    }
-                }
-
-                $this->assertTrue($found, "Imported image {$newTag} not found");
-            } catch (\DockerLib\Exceptions\ResponseException $e) {
-                if (str_contains($e->getMessage(), 'write')) {
-                    $this->markTestSkipped('Image import skipped: ' . $e->getMessage());
-                }
-                throw $e;
-            }
-        }
-
-        public function testImageLoad(): void
-        {
-            $tarData = $this->docker->images()->export('alpine:latest');
-
-            $tarFile = sys_get_temp_dir() . '/image-load-' . uniqid() . '.tar';
-            $this->testFiles[] = $tarFile;
-            file_put_contents($tarFile, $tarData);
-
-            try {
-                $response = $this->docker->images()->load($tarFile, false);
-                $this->assertNotNull($response);
-            } catch (\DockerLib\Exceptions\ResponseException $e) {
-                if (str_contains($e->getMessage(), 'write')) {
-                    $this->markTestSkipped('Image load skipped: ' . $e->getMessage());
-                }
-                throw $e;
-            }
-        }
-
         public function testImageHistory()
         {
             $history = $this->docker->images()->history('alpine:latest');

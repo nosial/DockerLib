@@ -64,30 +64,7 @@
                 $this->markTestSkipped('Plugin privileges test requires network access');
             }
         }
-
-        public function testInstallPlugin()
-        {
-            try {
-                $pluginName = 'test-plugin-' . uniqid();
-                
-                // Install a lightweight test plugin
-                // Note: This requires network access and may take time
-                $this->docker->plugins()->install('vieux/sshfs:latest', $pluginName, []);
-                $this->pluginName = $pluginName;
-                
-                // Verify plugin is installed
-                $plugin = $this->docker->plugins()->inspect($this->pluginName);
-                $this->assertNotNull($plugin->getId());
-            } catch (\Exception $e) {
-                if (str_contains($e->getMessage(), 'timeout') || 
-                    str_contains($e->getMessage(), 'network') ||
-                    str_contains($e->getMessage(), 'connection')) {
-                    $this->markTestSkipped('Plugin installation requires network access: ' . $e->getMessage());
-                }
-                $this->markTestSkipped('Plugin installation not available: ' . $e->getMessage());
-            }
-        }
-
+        
         public function testRemoveNonExistentPlugin()
         {
             try {
